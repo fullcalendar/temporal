@@ -60,13 +60,19 @@
     "eslint-plugin-import": "^2.24.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
+    "expect": "^27.5.1",
     "jest": "^27.0.4",
+    "jest-mock": "^27.5.1",
+    "karma": "^6.3.17",
+    "karma-jasmine": "^4.0.1",
+    "karma-webpack": "^5.0.0",
     "rollup": "^2.55.1",
     "rollup-plugin-dts": "^3.0.2",
     "shelljs": "^0.8.4",
     "shelljs-live": "^0.0.5",
     "terser": "^5.8.0",
     "typescript": "^4.3.5",
+    "webpack": "^5.70.0",
     "yargs": "^17.0.1"
   }
 }
