@@ -3,10 +3,8 @@ const fs = require('fs/promises')
 const { analyzePkgConfig, getPkgConfig } = require('../lib/pkgAnalyze.cjs')
 const resolve = require('@rollup/plugin-node-resolve').default
 const sucrase = require('@rollup/plugin-sucrase')
-const { terser } = require('rollup-plugin-terser')
 const dts = require('rollup-plugin-dts').default
 const { createTypeInputHash, typePreparing } = require('../lib/pkgTypes.cjs')
-const terserConfig = require('../config/terser.json')
 
 module.exports = {
   buildPkgBundleConfigs,
@@ -88,12 +86,12 @@ function buildPlugins(watch) {
     resolve({
       extensions: ['.js', '.ts'],
     }),
-    sucrase({
+    sucrase({ // NOTE: rollup-plugin-esbuild didn't generate sourcemaps correctly
       transforms: ['typescript'],
       disableESTransforms: true,
     }),
     tsFileOverriding('.build.ts'),
-    !watch && terser(terserConfig),
+    // NOTE: rollup-plugin-terser didn't generate sourcemaps correctly
   ]
 }
 

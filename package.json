@@ -61,7 +61,6 @@
     "minimatch": "^5.0.1",
     "rollup": "^2.55.1",
     "rollup-plugin-dts": "^3.0.2",
-    "rollup-plugin-terser": "^7.0.2",
     "typescript": "^4.3.5",
     "yargs": "^17.0.1"
   }
