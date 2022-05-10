@@ -8,7 +8,7 @@ bundlePkgJS(
   process.argv.slice(2).includes('--watch'),
 ).catch(() => process.exit(1))
 
-const target = 'es2018'
+const target = 'es2018' // too recent for Edge?
 
 async function bundlePkgJS(pkgDir, watch) {
   const pkgConfig = await getPkgConfig(pkgDir)
@@ -32,8 +32,8 @@ async function bundlePkgJS(pkgDir, watch) {
       watch,
       format,
       target,
-      outExtension: { '.js': outExt },
       outdir,
+      outExtension: { '.js': outExt },
       ...sourcemapOptions,
       external: Object.keys(pkgConfig.dependencies || {}),
       plugins: [localPathRewriting(naiveEntryMap, outExt)],
@@ -41,21 +41,19 @@ async function bundlePkgJS(pkgDir, watch) {
   }
 
   function buildGlobalEntryPoints() {
-    const globalEntryPoints = filterMap(
+    const globalEntryMap = filterMap(
       entryMap,
       (modulePath, moduleId) => moduleId === 'global',
     )
-    if (Object.keys(globalEntryPoints).length) {
-      return esbuild.build({
-        entryPoints: globalEntryPoints,
-        bundle: true,
-        watch,
-        format: 'iife',
-        target,
-        outdir, // will output as .js by default
-        ...sourcemapOptions,
-      })
-    }
+    return esbuild.build({
+      entryPoints: globalEntryMap,
+      bundle: true,
+      watch,
+      format: 'iife',
+      target,
+      outdir, // will output as .js by default
+      ...sourcemapOptions,
+    })
   }
 }
 
