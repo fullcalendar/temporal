@@ -8,6 +8,8 @@ bundlePkgJS(
   process.argv.slice(2).includes('--watch'),
 ).catch(() => process.exit(1))
 
+const target = 'es2018'
+
 async function bundlePkgJS(pkgDir, watch) {
   const pkgConfig = await getPkgConfig(pkgDir)
   const [entryMap, naiveEntryMap] = await queryEntrySources(pkgDir)
@@ -29,6 +31,7 @@ async function bundlePkgJS(pkgDir, watch) {
       bundle: true,
       watch,
       format,
+      target,
       outExtension: { '.js': outExt },
       outdir,
       ...sourcemapOptions,
@@ -38,15 +41,18 @@ async function bundlePkgJS(pkgDir, watch) {
   }
 
   function buildGlobalEntryPoints() {
-    const globalEntryPoints = filterMap(entryMap, (modulePath, moduleId) => moduleId === 'global')
+    const globalEntryPoints = filterMap(
+      entryMap,
+      (modulePath, moduleId) => moduleId === 'global',
+    )
     if (Object.keys(globalEntryPoints).length) {
       return esbuild.build({
         entryPoints: globalEntryPoints,
         bundle: true,
         watch,
         format: 'iife',
-        outExtension: { '.js': '.js' },
-        outdir,
+        target,
+        outdir, // will output as .js by default
         ...sourcemapOptions,
       })
     }
@@ -91,7 +97,7 @@ function localPathRewriting(naiveEntryMap, outExt) {
       build.onResolve({ filter: /^\.\// }, (args) => {
         const fullPath = path.resolve(args.resolveDir, args.path) + '.ts'
 
-        // is another entry point?
+        // importing an entry point?
         // if so, don't bundle. reference the file (with appropriate extension) instead
         if (naiveEntryFullPathMap[fullPath]) {
           return { path: args.path + outExt, external: true }
