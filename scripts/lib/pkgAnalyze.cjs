@@ -40,7 +40,7 @@ function analyzePkgConfig(pkgConfig) {
   const sideEffectsArray = Array.isArray(pkgConfig.sideEffects) ? pkgConfig.sideEffects : []
   const entryPoints = []
   const entryPointTypes = []
-  const globalEntryPoints = []
+  const globalEntryPoints = [] // need this anymore?
 
   for (const exportId in exportsHash) {
     const exportPaths = exportsHash[exportId]
