@@ -4,7 +4,11 @@ const { analyzePkgConfig, getPkgConfig } = require('../lib/pkgAnalyze.cjs')
 const resolve = require('@rollup/plugin-node-resolve').default
 const sucrase = require('@rollup/plugin-sucrase')
 const dts = require('rollup-plugin-dts').default
+const { getBabelOutputPlugin } = require('@rollup/plugin-babel')
 const { createTypeInputHash, typePreparing } = require('../lib/pkgTypes.cjs')
+
+// test
+// https://github.com/fullcalendar/temporal/commit/f13585d73b8d90191bb42f984c15ab2ec0c3b855
 
 module.exports = {
   buildPkgBundleConfigs,
@@ -86,11 +90,15 @@ function buildPlugins(watch) {
     resolve({
       extensions: ['.js', '.ts'],
     }),
+    tsFileOverriding('.build.ts'),
     sucrase({ // NOTE: rollup-plugin-esbuild didn't generate sourcemaps correctly
       transforms: ['typescript'],
       disableESTransforms: true,
     }),
-    tsFileOverriding('.build.ts'),
+    // getBabelOutputPlugin({
+    //   presets: ['@babel/preset-env'],
+    //   allowAllFormats: true, // TODO: deal with IIFE problem
+    // }),
     // NOTE: rollup-plugin-terser didn't generate sourcemaps correctly
   ]
 }
