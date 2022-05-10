@@ -1,6 +1,4 @@
-import { toTemporalInstant } from './native/date'
-import { DateTimeFormat } from './native/intlTemporal'
-import { Temporal } from './public/temporal'
+import { DateTimeFormat, Temporal, toTemporalInstant } from './internal'
 
 // TODO: better way to extend already-polyfilled rootObj
 // somehow WRAP the whole lib, UMD-style?
