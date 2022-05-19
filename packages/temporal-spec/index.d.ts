@@ -1541,7 +1541,7 @@ export namespace Intl {
     dayPeriod?: 'narrow' | 'short' | 'long';
     dateStyle?: 'full' | 'long' | 'medium' | 'short';
     timeStyle?: 'full' | 'long' | 'medium' | 'short';
-  };
+  }
 }
 
 export function toTemporalInstant(this: Date): Temporal.Instant;
