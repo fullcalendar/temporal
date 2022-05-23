@@ -36,7 +36,7 @@ export function formatDateISO(fields: ISODateFields): string {
 export function formatYearMonthISO(fields: ISODateFields): string {
   const { isoYear } = fields
   return (
-    (isoYear < 1000 || isoYear > 9999)
+    (isoYear < 0 || isoYear > 9999)
       ? getSignStr(isoYear) + padZeros(Math.abs(isoYear), 6)
       : padZeros(isoYear, 4)
   ) + '-' + padZeros(fields.isoMonth, 2)
